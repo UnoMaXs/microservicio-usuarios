@@ -6,8 +6,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-
-
 @Getter
 @Setter
 public class UsuarioAppRequestDto {
@@ -15,7 +13,7 @@ public class UsuarioAppRequestDto {
     private String apellido;
     private Long documentoDeIdentidad;
     private String celular;
-    private LocalDate FechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String correo;
     private String clave;
     private RolesPlazoleta rol;

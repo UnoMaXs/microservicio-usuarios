@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "usuario")
@@ -20,14 +20,14 @@ public class UsuarioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
     private String apellido;
     private Long documentoDeIdentidad;
     private String celular;
-    private LocalDateTime FechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String correo;
     private String clave;
+    @Enumerated(EnumType.STRING)
     private RolesPlazoleta rol;
 
 }
