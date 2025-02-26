@@ -41,6 +41,10 @@ public class UsuarioUseCase implements IUsuarioServicePort {
         usuarioPersistencePort.savePropietario(usuario);
     }
 
+    @Override
+    public Usuario findById(Long id) {
+        return usuarioPersistencePort.findById(id);
+    }
 
 
     private boolean esCorreoValido(String correo) {
