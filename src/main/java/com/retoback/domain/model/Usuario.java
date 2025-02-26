@@ -1,7 +1,6 @@
 package com.retoback.domain.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Usuario {
 
@@ -10,7 +9,7 @@ public class Usuario {
     private String apellido;
     private Long documentoDeIdentidad;
     private String celular;
-    private LocalDate FechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String correo;
     private String clave;
     private RolesPlazoleta rol;
@@ -24,7 +23,7 @@ public class Usuario {
         this.apellido = apellido;
         this.documentoDeIdentidad = documentoDeIdentidad;
         this.celular = celular;
-        FechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
         this.correo = correo;
         this.clave = clave;
         this.rol = rol;
@@ -71,11 +70,11 @@ public class Usuario {
     }
 
     public LocalDate getFechaNacimiento() {
-        return FechaNacimiento;
+        return fechaNacimiento;
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        FechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getCorreo() {
