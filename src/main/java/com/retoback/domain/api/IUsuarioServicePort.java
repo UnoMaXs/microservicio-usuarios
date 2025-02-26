@@ -6,5 +6,5 @@ public interface IUsuarioServicePort {
 
     void savePropietario(Usuario usuario);
 
-
+Usuario findById(Long id);
 }
