@@ -6,4 +6,6 @@ public interface IUsuarioAppHandler {
 
     void saveUsuarioInUsuarioApp(UsuarioAppRequestDto usuarioAppRequestDto);
 
+    String findRolById(Long id);
+
 }

@@ -23,4 +23,9 @@ public class UsuarioAppHandler implements IUsuarioAppHandler {
         usuarioServicePort.savePropietario(usuario);
     }
 
+    @Override
+    public String findRolById(Long id) {
+        return usuarioServicePort.findRolById(id);
+    }
+
 }
