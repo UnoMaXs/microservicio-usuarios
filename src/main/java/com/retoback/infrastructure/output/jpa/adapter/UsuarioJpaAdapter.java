@@ -23,8 +23,11 @@ public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
     }
 
     @Override
-    public Usuario findById(Long id) {
-        return usuarioRepository.findById(id).map(usuarioEntityMapper::toUsuario).orElse(null);
+    public String findRolById(Long id) {
+        return usuarioRepository.findById(id)
+                .map(usuarioEntityMapper::toUsuario)
+                .map(usuario -> usuario.getRol().toString())
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
     }
 }
 

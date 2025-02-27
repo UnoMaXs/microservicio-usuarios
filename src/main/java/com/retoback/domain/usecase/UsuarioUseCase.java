@@ -42,8 +42,8 @@ public class UsuarioUseCase implements IUsuarioServicePort {
     }
 
     @Override
-    public Usuario findById(Long id) {
-        return usuarioPersistencePort.findById(id);
+    public String findRolById(Long id) {
+        return usuarioPersistencePort.findRolById(id);
     }
 
 

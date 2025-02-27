@@ -5,9 +5,7 @@ import com.retoback.application.handler.IUsuarioAppHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuarioApp")
@@ -16,11 +14,16 @@ public class UsuarioAppRestController {
 
 private final IUsuarioAppHandler usuarioAppHandler;
 
-@PostMapping("/save")
+    @PostMapping("/save")
     public ResponseEntity<Void> saveUsuarioInUsuarioApp(UsuarioAppRequestDto usuarioAppRequestDto){
         usuarioAppHandler.saveUsuarioInUsuarioApp(usuarioAppRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
+    }
+
+    @GetMapping("/{id}/rol")
+    String obtenerRolUsuario(@PathVariable("id") Long id){
+        return usuarioAppHandler.findRolById(id);
     }
 
 }
