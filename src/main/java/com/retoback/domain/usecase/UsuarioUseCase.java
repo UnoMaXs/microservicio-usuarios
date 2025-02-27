@@ -1,7 +1,6 @@
 package com.retoback.domain.usecase;
 
 import com.retoback.domain.api.IUsuarioServicePort;
-import com.retoback.domain.model.RolesPlazoleta;
 import com.retoback.domain.model.Usuario;
 import com.retoback.domain.spi.IUsuarioPersistencePort;
 import com.retoback.infrastructure.exception.BusinessException;
@@ -37,7 +36,6 @@ public class UsuarioUseCase implements IUsuarioServicePort {
             throw new BusinessException("El usuario debe ser mayor de 18 años.");
         }
 
-        usuario.setRol(RolesPlazoleta.PROPIETARIO);
         usuarioPersistencePort.savePropietario(usuario);
     }
 

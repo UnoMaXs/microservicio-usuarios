@@ -1,5 +1,5 @@
 package com.retoback.domain.model;
 
 public enum RolesPlazoleta {
-    PROPIETARIO
+    PROPIETARIO, ADMINISTRADOR, EMPLEADO, CLIENTE
 }
