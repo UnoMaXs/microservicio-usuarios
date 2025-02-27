@@ -15,7 +15,7 @@ public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
 
 
     @Override
-    public void savePropietario(Usuario usuario) {
+    public void saveUsuario(Usuario usuario) {
         if (usuarioRepository.findByDocumentoDeIdentidad(usuario.getDocumentoDeIdentidad()).isPresent()) {
             throw new BusinessException("El usuario con este documento ya existe");
         }

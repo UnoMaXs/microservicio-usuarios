@@ -4,6 +4,6 @@ import com.retoback.domain.model.Usuario;
 
 public interface IUsuarioPersistencePort {
 
-    void savePropietario(Usuario usuario);
+    void saveUsuario(Usuario usuario);
     String findRolById(Long id);
 }

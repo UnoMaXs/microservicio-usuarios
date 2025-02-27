@@ -17,7 +17,7 @@ public class UsuarioUseCase implements IUsuarioServicePort {
     }
 
     @Override
-    public void savePropietario(Usuario usuario) {
+    public void saveUsuario(Usuario usuario) {
 
         if (!esCorreoValido(usuario.getCorreo())) {
             throw new BusinessException("Correo no válido, revise la estructura (ej. usuario@dominio.com)");
@@ -36,7 +36,7 @@ public class UsuarioUseCase implements IUsuarioServicePort {
             throw new BusinessException("El usuario debe ser mayor de 18 años.");
         }
 
-        usuarioPersistencePort.savePropietario(usuario);
+        usuarioPersistencePort.saveUsuario(usuario);
     }
 
     @Override

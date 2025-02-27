@@ -20,7 +20,7 @@ public class UsuarioAppHandler implements IUsuarioAppHandler {
     @Override
     public void saveUsuarioInUsuarioApp(UsuarioAppRequestDto usuarioAppRequestDto) {
         Usuario usuario = usuarioAppRequestMapper.toUsuario(usuarioAppRequestDto);
-        usuarioServicePort.savePropietario(usuario);
+        usuarioServicePort.saveUsuario(usuario);
     }
 
     @Override
