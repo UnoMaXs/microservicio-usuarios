@@ -29,5 +29,12 @@ public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
                 .map(usuario -> usuario.getRol().toString())
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
     }
+
+    @Override
+    public Usuario findByCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo)
+                .map(usuarioEntityMapper::toUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario con correo " + correo + " no encontrado"));
+    }
 }
 
