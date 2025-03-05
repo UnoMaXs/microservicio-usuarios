@@ -44,6 +44,11 @@ public class UsuarioUseCase implements IUsuarioServicePort {
         return usuarioPersistencePort.findRolById(id);
     }
 
+    @Override
+    public Usuario findUsuarioByCorreo(String correo) {
+        return usuarioPersistencePort.findByCorreo(correo);
+    }
+
 
     private boolean esCorreoValido(String correo) {
         if (correo == null) return false;
@@ -53,7 +58,7 @@ public class UsuarioUseCase implements IUsuarioServicePort {
     private boolean esCelularValido(String celular) {
         if (celular == null) return false;
 
-        return celular.matches("\\+?\\d{1,13}");
+        return celular.matches("^\\+[1-9]{1,3}\\d{10}$");
     }
 
     private boolean esMayorDeEdad(LocalDate fechaNacimiento) {

@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface IUsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     Optional<UsuarioEntity> findByDocumentoDeIdentidad(Long documentoDeIdentidad);
+    Optional<UsuarioEntity> findByCorreo(String correo);
 }

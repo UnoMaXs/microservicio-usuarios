@@ -1,18 +1,20 @@
 package com.retoback.application.dto;
 
 import com.retoback.domain.model.RolesPlazoleta;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-public class UsuarioAppResponseDto {
+@Getter
+@Setter
+public class RegisterRequestDto {
     private String nombre;
     private String apellido;
     private Long documentoDeIdentidad;
     private String celular;
-    private String correo;
     private LocalDate fechaNacimiento;
+    private String correo;
     private String clave;
     private RolesPlazoleta rol;
 }
