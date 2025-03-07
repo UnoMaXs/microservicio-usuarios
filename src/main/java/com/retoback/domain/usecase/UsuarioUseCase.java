@@ -4,6 +4,8 @@ import com.retoback.domain.api.IUsuarioServicePort;
 import com.retoback.domain.model.Usuario;
 import com.retoback.domain.spi.IUsuarioPersistencePort;
 import com.retoback.infrastructure.exception.BusinessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -18,6 +20,24 @@ public class UsuarioUseCase implements IUsuarioServicePort {
 
     @Override
     public void saveUsuario(Usuario usuario) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated() || auth.getAuthorities().isEmpty()) {
+            throw new BusinessException("No estás autenticado, no se puede crear un usuario.");
+        }
+
+        String authority = auth.getAuthorities().iterator().next().getAuthority();
+
+        if (!"ROLE_ADMINISTRADOR".equals(authority)) {
+            throw new BusinessException("Solo un administrador puede crear usuarios");
+        }
+
+        if ("EMPLEADO".equals(usuario.getRol().toString())) {
+            if (!"ROLE_PROPIETARIO".equals(authority)) {
+                throw new BusinessException("Solo un propietario puede crear empleados.");
+            }
+        }
 
         if (!esCorreoValido(usuario.getCorreo())) {
             throw new BusinessException("Correo no válido, revise la estructura (ej. usuario@dominio.com)");
@@ -52,7 +72,7 @@ public class UsuarioUseCase implements IUsuarioServicePort {
 
     private boolean esCorreoValido(String correo) {
         if (correo == null) return false;
-        return correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+        return correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
     }
 
     private boolean esCelularValido(String celular) {

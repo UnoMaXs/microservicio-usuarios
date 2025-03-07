@@ -15,7 +15,7 @@ public class UsuarioAppRestController {
 private final IUsuarioAppHandler usuarioAppHandler;
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveUsuarioInUsuarioApp(UsuarioAppRequestDto usuarioAppRequestDto){
+    public ResponseEntity<Void> saveUsuarioInUsuarioApp(@RequestBody UsuarioAppRequestDto usuarioAppRequestDto){
         usuarioAppHandler.saveUsuarioInUsuarioApp(usuarioAppRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
