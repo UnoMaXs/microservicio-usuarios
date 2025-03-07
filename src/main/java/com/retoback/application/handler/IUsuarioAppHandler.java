@@ -9,6 +9,4 @@ public interface IUsuarioAppHandler {
 
     String findRolById(Long id);
 
-    Usuario findUsuarioByCorreo(String correo);
-
 }
