@@ -12,4 +12,6 @@ public interface IUsuarioAppResponseMapper {
 
     UsuarioAppResponseDto toUsuarioAppResponseDto(Usuario usuario);
 
+
+
 }

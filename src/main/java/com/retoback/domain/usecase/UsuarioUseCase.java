@@ -1,11 +1,13 @@
 package com.retoback.domain.usecase;
 
 import com.retoback.domain.api.IUsuarioServicePort;
+import com.retoback.domain.model.RolesPlazoleta;
 import com.retoback.domain.model.Usuario;
 import com.retoback.domain.spi.IUsuarioPersistencePort;
 import com.retoback.infrastructure.exception.BusinessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -29,34 +31,20 @@ public class UsuarioUseCase implements IUsuarioServicePort {
 
         String authority = auth.getAuthorities().iterator().next().getAuthority();
 
-        if (!"ROLE_ADMINISTRADOR".equals(authority)) {
-            throw new BusinessException("Solo un administrador puede crear usuarios");
+        if ("ROLE_ADMINISTRADOR".equals(authority)) {
+            realizarValidacionesGenerales(usuario);
+            usuario.setClave(new BCryptPasswordEncoder().encode(usuario.getClave()));
+            usuarioPersistencePort.saveUsuario(usuario);
+            return;
         }
 
-        if ("EMPLEADO".equals(usuario.getRol().toString())) {
-            if (!"ROLE_PROPIETARIO".equals(authority)) {
-                throw new BusinessException("Solo un propietario puede crear empleados.");
-            }
+        if ("ROLE_PROPIETARIO".equals(authority) && usuario.getRol() == RolesPlazoleta.EMPLEADO) {
+            Long idPropietario = usuarioPersistencePort.findByCorreo(auth.getName()).getId();
+            crearEmpleadoPorPropietario(usuario, idPropietario);
+            return;
         }
 
-        if (!esCorreoValido(usuario.getCorreo())) {
-            throw new BusinessException("Correo no válido, revise la estructura (ej. usuario@dominio.com)");
-        }
-
-        if (!esCelularValido(usuario.getCelular())) {
-            throw new BusinessException("Teléfono inválido; máximo 13 dígitos y debe iniciar con '+'.");
-        }
-
-        if (usuario.getDocumentoDeIdentidad() == null || usuario.getDocumentoDeIdentidad() <= 0) {
-            throw new BusinessException("Documento de identidad debe ser un número positivo.");
-        }
-
-
-        if (!esMayorDeEdad(usuario.getFechaNacimiento())) {
-            throw new BusinessException("El usuario debe ser mayor de 18 años.");
-        }
-
-        usuarioPersistencePort.saveUsuario(usuario);
+        throw new BusinessException("No tienes permisos para crear este tipo de usuario.");
     }
 
     @Override
@@ -69,6 +57,62 @@ public class UsuarioUseCase implements IUsuarioServicePort {
         return usuarioPersistencePort.findByCorreo(correo);
     }
 
+
+    public void crearEmpleadoPorPropietario(Usuario empleado, Long idPropietario) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated() || auth.getAuthorities().isEmpty()) {
+            throw new BusinessException("Debes estar autenticado para crear empleados.");
+        }
+
+
+        String authority = auth.getAuthorities().iterator().next().getAuthority();
+
+        if (!"ROLE_PROPIETARIO".equals(authority)) {
+            throw new BusinessException("Solo un propietario puede crear empleados.");
+        }
+
+        String correoAutenticado = auth.getName();
+        Usuario propietario = usuarioPersistencePort.findByCorreo(correoAutenticado);
+        if (propietario == null || !propietario.getId().equals(idPropietario)) {
+            throw new BusinessException("El usuario autenticado no coincide con el propietario indicado.");
+        }
+
+
+        empleado.setRol(RolesPlazoleta.EMPLEADO);
+
+        validarCamposEmpleado(empleado);
+
+        empleado.setClave(new BCryptPasswordEncoder().encode(empleado.getClave()));
+
+        usuarioPersistencePort.saveUsuario(empleado);
+    }
+
+    private void realizarValidacionesGenerales(Usuario usuario) {
+        if (!esCorreoValido(usuario.getCorreo())) {
+            throw new BusinessException("Correo no válido, revise la estructura (ej. usuario@dominio.com)");
+        }
+
+        if (!esCelularValido(usuario.getCelular())) {
+            throw new BusinessException("Teléfono inválido; máximo 13 dígitos y debe iniciar con '+'.");
+        }
+
+        if (usuario.getDocumentoDeIdentidad() == null || usuario.getDocumentoDeIdentidad() <= 0) {
+            throw new BusinessException("Documento de identidad debe ser un número positivo.");
+        }
+
+        if (!esMayorDeEdad(usuario.getFechaNacimiento())) {
+            throw new BusinessException("El usuario debe ser mayor de 18 años.");
+        }
+    }
+
+    private void validarCamposEmpleado(Usuario usuario) {
+        if (usuario.getNombre() == null || usuario.getApellido() == null) {
+            throw new BusinessException("Nombre y Apellido obligatorios.");
+        }
+        realizarValidacionesGenerales(usuario);
+    }
 
     private boolean esCorreoValido(String correo) {
         if (correo == null) return false;
@@ -86,5 +130,5 @@ public class UsuarioUseCase implements IUsuarioServicePort {
 
         return Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 18;
     }
- }
+}
 
