@@ -23,6 +23,18 @@ public class UsuarioUseCase implements IUsuarioServicePort {
     @Override
     public void saveUsuario(Usuario usuario) {
 
+        if (RolesPlazoleta.CLIENTE.equals(usuario.getRol())) {
+
+            realizarValidacionesGenerales(usuario);
+
+
+            usuario.setClave(new BCryptPasswordEncoder().encode(usuario.getClave()));
+
+
+            usuarioPersistencePort.saveUsuario(usuario);
+            return;
+        }
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth == null || !auth.isAuthenticated() || auth.getAuthorities().isEmpty()) {
