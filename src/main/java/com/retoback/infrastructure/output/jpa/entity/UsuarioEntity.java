@@ -29,5 +29,8 @@ public class UsuarioEntity {
     private String clave;
     @Enumerated(EnumType.STRING)
     private RolesPlazoleta rol;
+    private Long idRestaurante;
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.retoback.infrastructure.output.jpa.adapter;
 
+import com.retoback.domain.model.RolesPlazoleta;
 import com.retoback.domain.model.Usuario;
 import com.retoback.domain.spi.IUsuarioPersistencePort;
 import com.retoback.infrastructure.exception.BusinessException;
@@ -36,5 +37,6 @@ public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
                 .map(usuarioEntityMapper::toUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario con correo " + correo + " no encontrado"));
     }
+
 }
 
