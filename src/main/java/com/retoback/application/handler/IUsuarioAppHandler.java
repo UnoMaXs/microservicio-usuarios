@@ -9,4 +9,5 @@ public interface IUsuarioAppHandler {
 
     String findRolById(Long id);
 
+
 }

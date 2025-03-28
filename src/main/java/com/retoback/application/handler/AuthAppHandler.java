@@ -29,12 +29,11 @@ public class AuthAppHandler implements IAuthAppHandler {
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         Usuario usuario = usuarioServicePort.findUsuarioByCorreo(loginRequestDto.getCorreo());
 
-        // Validar la contraseña
         if (!passwordEncoder.matches(loginRequestDto.getClave(), usuario.getClave())) {
             throw new BusinessException("Contraseña incorrecta");
         }
 
-        // Generar el token JWT
+
         String jwtToken = jwtService.generate(usuario);
 
         return new LoginResponseDto(jwtToken);    }

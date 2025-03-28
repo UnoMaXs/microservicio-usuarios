@@ -7,4 +7,6 @@ public interface IUsuarioPersistencePort {
     void saveUsuario(Usuario usuario);
     String findRolById(Long id);
     Usuario findByCorreo(String correo);
+
+
 }

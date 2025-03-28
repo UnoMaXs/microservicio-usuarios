@@ -5,6 +5,7 @@ import com.retoback.application.handler.IUsuarioAppHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +26,6 @@ private final IUsuarioAppHandler usuarioAppHandler;
     String obtenerRolUsuario(@PathVariable("id") Long id){
         return usuarioAppHandler.findRolById(id);
     }
+
 
 }

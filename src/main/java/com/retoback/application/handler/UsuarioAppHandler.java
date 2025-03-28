@@ -3,7 +3,6 @@ package com.retoback.application.handler;
 import com.retoback.application.dto.UsuarioAppRequestDto;
 import com.retoback.application.mapper.IUsuarioAppRequestMapper;
 import com.retoback.domain.api.IUsuarioServicePort;
-import com.retoback.domain.model.RolesPlazoleta;
 import com.retoback.domain.model.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,5 @@ public class UsuarioAppHandler implements IUsuarioAppHandler {
     public String findRolById(Long id) {
         return usuarioServicePort.findRolById(id);
     }
-
 
 }

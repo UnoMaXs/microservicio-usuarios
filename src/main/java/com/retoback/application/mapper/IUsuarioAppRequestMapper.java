@@ -1,6 +1,5 @@
 package com.retoback.application.mapper;
 
-import com.retoback.application.dto.EmpleadoRequestDto;
 import com.retoback.application.dto.UsuarioAppRequestDto;
 import com.retoback.domain.model.Usuario;
 import org.mapstruct.Mapper;
@@ -13,5 +12,4 @@ public interface IUsuarioAppRequestMapper {
 
      Usuario toUsuario(UsuarioAppRequestDto usuarioAppRequestDto);
 
-     Usuario toEmpleado(EmpleadoRequestDto empleadoRequestDto);
 }
