@@ -38,5 +38,7 @@ public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
                 .orElseThrow(() -> new RuntimeException("Usuario con correo " + correo + " no encontrado"));
     }
 
+
+
 }
 

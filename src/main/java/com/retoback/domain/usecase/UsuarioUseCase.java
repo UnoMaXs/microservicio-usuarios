@@ -81,7 +81,7 @@ public class UsuarioUseCase implements IUsuarioServicePort {
         empleado.setRol(RolesPlazoleta.EMPLEADO);
         validarCamposEmpleado(empleado);
         if (plazoletaFeignClient.obtenerRestaurateId(empleado.getIdRestaurante()) == null) {
-            System.out.println("el Restaurante no existe");
+            throw new BusinessException("el Restaurante no existe");
         }
         empleado.setClave(passwordEncoder.encode(empleado.getClave()));
         usuarioPersistencePort.saveUsuario(empleado);
