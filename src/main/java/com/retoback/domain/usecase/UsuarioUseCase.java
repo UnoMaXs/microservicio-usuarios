@@ -74,6 +74,15 @@ public class UsuarioUseCase implements IUsuarioServicePort {
         return usuarioPersistencePort.findByCorreo(correo);
     }
 
+    @Override
+    public String obtenerCelularUsuario(Long id) {
+        Usuario usuario = usuarioPersistencePort.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        return usuario.getCelular();
+
+
+    }
+
     public void crearEmpleadoPorPropietario(Usuario empleado, Long idPropietario) {
         Authentication auth = obtenerAutenticacion();
         validarPropietario(auth, idPropietario);

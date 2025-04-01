@@ -8,6 +8,8 @@ import com.retoback.infrastructure.output.jpa.mapper.IUsuarioEntityMapper;
 import com.retoback.infrastructure.output.jpa.repository.IUsuarioRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
 
@@ -38,6 +40,11 @@ public class UsuarioJpaAdapter implements IUsuarioPersistencePort {
                 .orElseThrow(() -> new RuntimeException("Usuario con correo " + correo + " no encontrado"));
     }
 
+    @Override
+    public Optional<Usuario> findById(Long id) {
+        return usuarioRepository.findById(id)
+                .map(usuarioEntityMapper::toUsuario);
+    }
 
 
 }
