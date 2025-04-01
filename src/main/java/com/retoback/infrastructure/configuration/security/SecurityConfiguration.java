@@ -4,6 +4,7 @@ import com.retoback.infrastructure.configuration.security.jwt.JwtAuthenticationF
 import com.retoback.infrastructure.configuration.security.jwt.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -40,13 +41,17 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/swagger-ui/**", "/usuarioApp/**","/auth/register").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register", "/swagger-ui/**", "/usuarioApp/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuarioApp/usuarios/{id}/telefono").hasAnyRole("PROPIETARIO", "EMPLEADO")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
+        http.setSharedObject(org.springframework.web.util.pattern.PathPatternParser.class, new org.springframework.web.util.pattern.PathPatternParser());
+
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

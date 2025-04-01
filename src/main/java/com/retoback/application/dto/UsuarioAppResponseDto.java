@@ -15,4 +15,7 @@ public class UsuarioAppResponseDto {
     private LocalDate fechaNacimiento;
     private String clave;
     private RolesPlazoleta rol;
+
+    public UsuarioAppResponseDto() {
+    }
 }
